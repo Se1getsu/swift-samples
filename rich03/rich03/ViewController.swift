@@ -25,13 +25,24 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        button.frame = CGRect(x: 10, y: 70, width: 60, height: 30)
+        button.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(button)
-        textView.frame = CGRect(x: 10, y: 100, width: view.bounds.maxX-20, height: view.bounds.maxY-100)
+        textView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(textView)
         
+        let safeAreaGuide = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            button.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor, constant: 10),
+            button.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
+            button.widthAnchor.constraint(equalToConstant: 60),
+            button.heightAnchor.constraint(equalToConstant: 30),
+            textView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
+            textView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
+            textView.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 10),
+            textView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor)
+        ])
+        
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-
     }
     
     @objc func buttonTapped(_ sender: UIButton) {
