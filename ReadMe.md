@@ -9,3 +9,4 @@
 - [`rich01`](./rich01) : `UITextView` で キーボードがカーソルを隠さないようにする明快な方法
 - [`rich02`](./rich02) : `Popover` 内のプッシュ遷移
 - [`rich03`](./rich03) : `UITextView` の ボールドボタン(太字ボタン)実装
+- [`rich04`](./rich04) : `UIButton` タップ時のアニメーションと、ボタングループの作成
