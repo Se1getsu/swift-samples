@@ -57,21 +57,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let separator1 = UIView()
-        separator1.backgroundColor = .black
-        separator1.widthAnchor.constraint(equalToConstant: 1).isActive = true
-        let separator2 = UIView()
-        separator2.backgroundColor = .black
-        separator2.widthAnchor.constraint(equalToConstant: 1).isActive = true
-
+        buttonGroup.translatesAutoresizingMaskIntoConstraints = false
+        numberLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         buttonGroup.addSubButton(leftButton)
         buttonGroup.addSubButton(centerButton)
         buttonGroup.addSubButton(rightButton)
         view.addSubview(buttonGroup)
         view.addSubview(numberLabel)
 
-        buttonGroup.translatesAutoresizingMaskIntoConstraints = false
-        numberLabel.translatesAutoresizingMaskIntoConstraints = false
         let safeAreaGuide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             buttonGroup.centerXAnchor.constraint(equalTo: safeAreaGuide.centerXAnchor),
@@ -85,7 +79,6 @@ class ViewController: UIViewController {
         rightButton.addEvent(self, action: #selector(rightButtonTapped))
         leftButton.addEvent(self, action: #selector(leftButtonTapped))
         centerButton.addTarget(self, action: #selector(centerButtonPressed), for: .touchUpInside)
-
     }
 
     @objc func rightButtonTapped() {
