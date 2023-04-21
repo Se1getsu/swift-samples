@@ -51,6 +51,7 @@ class ViewController: UIViewController {
         }
         set {
             _count = max(0, newValue)
+            numberLabel.text = "\(count)"
         }
     }
 
@@ -83,16 +84,13 @@ class ViewController: UIViewController {
 
     @objc func rightButtonTapped() {
         count += 1
-        numberLabel.text = "\(count)"
     }
 
     @objc func leftButtonTapped() {
         count -= 1
-        numberLabel.text = "\(count)"
     }
 
     @objc func centerButtonPressed() {
         count = Int.random(in: 10...99)
-        numberLabel.text = "\(count)"
     }
 }
