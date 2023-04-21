@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  rich04
 //
-//  Created by 垣本 桃弥 on 2023/04/18.
+//  Created by 垣本 桃弥 on 2023/04/21.
 //
 
 import UIKit

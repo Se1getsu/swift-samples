@@ -2,13 +2,13 @@
 //  PushableButton.swift
 //  rich04
 //
-//  Created by 垣本 桃弥 on 2023/04/20.
+//  Created by 垣本 桃弥 on 2023/04/21.
 //
 
 import UIKit
 
 class PushableButton: UIButton {
-    
+
     private var effectView: UIView = UIView()
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -19,7 +19,7 @@ class PushableButton: UIButton {
         effectView.alpha = 0.2
         addSubview(effectView)
     }
-    
+
     @objc func executeAction() {
     }
 
@@ -32,7 +32,7 @@ class PushableButton: UIButton {
         super.touchesCancelled(touches, with: event)
         handleRelease()
     }
-    
+
     func handleRelease() {
         effectView.removeFromSuperview()
     }

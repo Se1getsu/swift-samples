@@ -2,7 +2,7 @@
 //  HoldableButton.swift
 //  rich04
 //
-//  Created by 垣本 桃弥 on 2023/04/19.
+//  Created by 垣本 桃弥 on 2023/04/21.
 //
 
 import UIKit
@@ -14,7 +14,7 @@ class HoldableButton: UIButton {
         : count >= 5 ? 0.1
         : 0.5
     }
-    
+
     private var effectView: UIView = UIView()
     private var timer: Timer?
     private var count = 0
@@ -32,7 +32,7 @@ class HoldableButton: UIButton {
             self.effectView.transform = CGAffineTransform.identity
             self.effectView.alpha = 0.2
         }
-        
+
         if timer == nil || !timer!.isValid {
             count = 1
             timer = Timer.scheduledTimer(
@@ -43,7 +43,7 @@ class HoldableButton: UIButton {
                 repeats: false)
         }
     }
-    
+
     @objc func executeAction() {
         count += 1
         timer = Timer.scheduledTimer(
@@ -64,7 +64,7 @@ class HoldableButton: UIButton {
         super.touchesCancelled(touches, with: event)
         handleRelease()
     }
-    
+
     func handleRelease() {
         UIView.animate(withDuration: 0.2, animations: {
             self.effectView.alpha = 0.1
@@ -79,7 +79,7 @@ class HoldableButton: UIButton {
 
         effectView.frame = bounds
     }
-    
+
     func addEvent(_ target: Any?, action: Selector) {
         addTarget(target, action: action, for: .touchDown)
     }

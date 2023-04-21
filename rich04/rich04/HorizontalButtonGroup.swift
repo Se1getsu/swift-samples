@@ -2,32 +2,32 @@
 //  HorizontalButtonGroup.swift
 //  rich04
 //
-//  Created by 垣本 桃弥 on 2023/04/19.
+//  Created by 垣本 桃弥 on 2023/04/21.
 //
 
 import UIKit
 
 class HorizontalButtonGroup: UIView {
     var separatorColor: UIColor = .clear
-    
+
     private var buttons: [UIButton] = []
     private var separators: [UIView] = []
     private var pushViews: [UIView] = []
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupView()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.setupView()
     }
-    
+
     private func setupView() {
         backgroundColor = .clear
     }
-    
+
     func addSubButton(_ button: UIButton) {
         buttons.append(button)
         if buttons.count > 1 {
@@ -41,21 +41,21 @@ class HorizontalButtonGroup: UIView {
         button.layer.cornerRadius = layer.cornerRadius
         button.translatesAutoresizingMaskIntoConstraints = false
         addSubview(button)
-        
+
         let pushView = UIView()
         pushView.backgroundColor = .systemPink.withAlphaComponent(0.3)
         pushViews.append(pushView)
         pushView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(pushView)
     }
-    
+
     override func layoutSubviews() {
         layoutButtons()
     }
-    
+
     private func layoutButtons() {
         guard buttons.count > 0 else { return }
-        
+
         for (index, button) in buttons.enumerated() {
             if index != 0 {
                 NSLayoutConstraint.activate([
