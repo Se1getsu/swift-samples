@@ -10,3 +10,4 @@
 - [`rich02`](./rich02) : `Popover` 内のプッシュ遷移
 - [`rich03`](./rich03) : `UITextView` の ボールドボタン(太字ボタン)実装
 - [`rich04`](./rich04) : `UIButton` タップ時のアニメーションと、ボタングループの作成
+- [`rich05`](./rich05) : `iosMath` で `UITextView` に数式を表示する
