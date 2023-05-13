@@ -11,42 +11,17 @@ import iosMath
 class ViewController: UIViewController {
     
     private let textView = UITextView()
+    private let pointSize: Double = 16
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var s = #"一次方程式$ax+b=0$の解は$x=-b/a$です。"# + "\n"
-        s += #"$ax^2+bx+c=0$の解の公式は$x=-\left(\frac{b\pm\sqrt{b^2-4ac -\frac{b(a-a)\pm\sqrt{b^2-4ac}}{2a} }}{2a}\right)$です。"#
-        textView.text = s
-
-        if (textView.text?.contains("$"))! {
-            let tempString = textView.text!
-            let tempMutableString = NSMutableAttributedString(string: tempString)
-            let pattern = NSRegularExpression.escapedPattern(for: "$")
-            let regex = try? NSRegularExpression(pattern: pattern, options: [])
-            if let matches = regex?.matches(in: tempString, options: [], range: NSRange(location: 0, length: tempString.count)) {
-                var i = 0
-                while i < matches.count {
-                    let range1 = matches.reversed()[i+1].range
-                    let range2 = matches.reversed()[i].range
-                    let finalDistance = range2.location - range1.location + 1
-                    let finalRange = NSRange(location: range1.location, length: finalDistance)
-                    let startIndex = String.Index(utf16Offset: range1.location + 1, in: tempString)
-                    let endIndex = String.Index(utf16Offset: range2.location, in: tempString)
-                    let substring = String(tempString[startIndex..<endIndex])
-                    var image = UIImage()
-                    image = imageWithLabel(string: substring)
-                    let flip = UIImage(cgImage: image.cgImage!, scale: 4, orientation: .downMirrored)
-                    let attachment = NSTextAttachment()
-                    attachment.image = flip
-                    attachment.bounds = CGRect(x: 0, y: -flip.size.height/2 + 5, width: flip.size.width, height: flip.size.height)
-                    let replacement = NSAttributedString(attachment: attachment)
-                    tempMutableString.replaceCharacters(in: finalRange, with: replacement)
-                    textView.attributedText = tempMutableString
-                    i += 2
-                }
-            }
-        }
+        var text = #"一次方程式$ax+b=0$の解は$x=-b/a$です。"# + "\n"
+        text += #"$ax^2+bx+c=0$の解の公式は$x=-\left(\frac{b\pm\sqrt{b^2-4ac -\frac{b(a-a)\pm\sqrt{b^2-4ac}}{2a} }}{2a}\right)$です。"#
+        let font = UIFont(name: "ArialMT", size: pointSize)!
+        let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: font]
+        let attributedText = NSMutableAttributedString(string: text, attributes: attributes)
+        textView.attributedText = decodeLatex(attributedString: attributedText)
         
         textView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(textView)
@@ -59,15 +34,41 @@ class ViewController: UIViewController {
             textView.heightAnchor.constraint(equalToConstant: 200),
         ])
     }
+    
+    func decodeLatex(attributedString: NSMutableAttributedString) -> NSMutableAttributedString {
+        let regex = try! NSRegularExpression(pattern: #"(?<!\\)\$(.+?)(?<!\\)\$"#, options: [])
+        let entireRange = NSRange(location: 0, length: attributedString.length)
+        let matches = regex.matches(in: attributedString.string, options: [], range: entireRange)
+            
+        for match in matches.reversed() {
+            let matchRange = match.range(at: 0)
+            let matchFormulaRange = match.range(at: 1)
+            let formula = attributedString.attributedSubstring(from: matchFormulaRange).string
+            
+            if let attachment = getLatexAttachment(string: formula, pointSize: pointSize) {
+                let replacement = NSAttributedString(attachment: attachment)
+                attributedString.replaceCharacters(in: matchRange, with: replacement)
+            }
+        }
+        
+        return attributedString
+    }
 
-    func imageWithLabel(string: String) -> UIImage {
+    func getLatexAttachment(string: String, pointSize: Double) -> NSTextAttachment? {
         let label = MTMathUILabel()
         label.latex = string
+        label.fontSize = pointSize
         label.sizeToFit()
         UIGraphicsBeginImageContextWithOptions(label.bounds.size, false, 0)
         defer { UIGraphicsEndImageContext() }
         label.layer.render(in: UIGraphicsGetCurrentContext()!)
-        return UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
+        guard let flip = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+        let image = UIImage(cgImage: flip.cgImage!, scale: 1, orientation: .downMirrored)
+        
+        let attachment = NSTextAttachment()
+        attachment.image = image
+        attachment.bounds = CGRect(x: 0, y: -label.bounds.height/2 + pointSize/3, width: label.bounds.width, height: label.bounds.height)
+        return attachment
     }
 }
 
