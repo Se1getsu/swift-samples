@@ -11,3 +11,4 @@
 - [`rich03`](./rich03) : `UITextView` の ボールドボタン(太字ボタン)実装
 - [`rich04`](./rich04) : `UIButton` タップ時のアニメーションと、ボタングループの作成
 - [`rich05`](./rich05) : `iosMath` で `UITextView` に数式を表示する
+- [`rich06`](./rich06) : Stack Overflow "[UITableViewCell shows an unexpected blue outer frame](https://stackoverflow.com/questions/76254824/uitableviewcell-shows-an-unexpected-blue-outer-frame)"
